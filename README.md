@@ -55,7 +55,7 @@ In order to delete your exporters, Run this command:
 ansible-playbook -b -i inventory/exporters/hosts.yml destroy.yml
 ```
 ## Notes
-1. Instead of steps 1 to 4 you can run [install-env]([https://github.com/mahdiyehmr/ansible-exporters/blob/main/install-venv.sh)https://github.com/mahdiyehmr/ansible-exporters/blob/main/install-venv.sh]) script and switch to the environment.
+1. Instead of steps 1 to 4 you can run [install-env](https://github.com/mahdiyehmr/ansible-exporters/blob/main/install-venv.sh) script and switch to the environment.
 ```
 source .env/bin/activate
 ```
