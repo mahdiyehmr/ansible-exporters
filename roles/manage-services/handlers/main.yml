@@ -1,0 +1,4 @@
+- name: Start-Docker-Compose
+  ansible.builtin.shell:
+    chdir: "{{ service_project_dir }}"
+    cmd: "docker compose up -d --force-recreate  --remove-orphans"

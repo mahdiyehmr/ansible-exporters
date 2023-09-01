@@ -1,0 +1,45 @@
+- name: Create directory for services
+  tags:
+    - init-services
+  ansible.builtin.file:
+    path: "{{ service_project_dir }}"
+    state: directory
+    recurse: True
+
+
+- name: Add all kafka lag exporter config files
+  tags:
+    - add_files
+    - init-services
+  ansible.builtin.copy:
+    src: ../../kafka_lag_exporter/
+    dest: "{{ service_project_dir }}/kafka_lag_exporter"
+  when: "'kafka' in group_names"
+
+
+- name: Create docker-compose for all services
+  tags:
+    - init-services
+  ansible.builtin.template:
+    src: templates/docker-compose.yml.j2
+    dest: "{{ service_project_dir }}/docker-compose.yaml"
+  notify:
+    - Start-Docker-Compose
+
+
+- name: Check whether the services are running or not
+  tags:
+    - init-services
+  ansible.builtin.shell:
+    chdir: "{{ service_project_dir }}"
+    cmd: "docker compose ps -q"
+  register: service_state
+  changed_when: False
+
+- name: Start all services
+  tags:
+    - init-services
+  ansible.builtin.shell:
+    chdir: "{{ service_project_dir }}"
+    cmd: "docker compose up -d"
+  when: service_state.stdout_lines | length == 0

@@ -1,0 +1,13 @@
+- name: Check whether the services are running or not
+  ansible.builtin.shell:
+    chdir: "{{ service_project_dir }}"
+    cmd: "docker compose ps -q"
+  register: service_state
+  changed_when: False
+
+- name: Destroy all services
+  ansible.builtin.shell:
+    chdir: "{{ service_project_dir }}"
+    cmd: "docker compose down"
+  when: 
+    - service_state.stdout_lines | length > 0

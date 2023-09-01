@@ -1,0 +1,6 @@
+{% if docker_config is defined %}
+{{ docker_config | to_nice_json(indent=2) }}
+{% endif %}
+{% if docker_config_mysql is defined %}
+{{ docker_config_mysql | to_nice_json(indent=2) }}
+{% endif %}

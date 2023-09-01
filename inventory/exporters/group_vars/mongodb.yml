@@ -1,0 +1,16 @@
+docker_config:
+  live-restore: true
+  log-opts: 
+    max-file: "3"
+    max-size: 256m
+  default-address-pools: 
+    - base: "10.10.0.0/16"
+      size: 24
+      
+additional_services:      
+  mongoshard_exporter:
+    image: ssheehy/mongodb-exporter:0.10.0
+    restart: always
+    network_mode: host
+    container_name: mongoshard_exporter
+    command: '--mongodb.uri=mongodb://prom-exporter:mongo-pass==@127.0.0.1:27017 --collect.collection --collect.database --collect.indexusage --collect.topmetrics --collect.connpoolstats --web.listen-address=":9260"'

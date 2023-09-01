@@ -1,0 +1,28 @@
+docker_config:
+  live-restore: true
+  log-opts: 
+    max-file: "3"
+    max-size: 256m
+  default-address-pools: 
+    - base: "10.10.0.0/16"
+      size: 24
+  bridge: none
+  iptables: false
+  ip-masq: false
+  
+additional_services:      
+  kafka_exporter:
+    image: danielqsj/kafka-exporter:v1.6.0
+    restart: always
+    network_mode: host
+    container_name: kafka-exporter
+    command: ["--kafka.server=127.0.0.1:9093"]
+
+  kafka_lag_exporter:
+    image: seglo/kafka-lag-exporter:0.7.0
+    restart: always
+    network_mode: host
+    container_name: kafka-lag-exporter
+    command: ["/opt/docker/bin/kafka-lag-exporter", "-Dconfig.file=/opt/docker/conf/application.conf", "-Dlogback.configurationFile=/opt/docker/conf/logback.xml"]
+    volumes:
+      - ./kafka_lag_exporter:/opt/docker/conf/

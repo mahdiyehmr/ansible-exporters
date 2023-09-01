@@ -1,0 +1,8 @@
+- name: Destroy all services
+  hosts: all
+  become: True
+  tasks:
+    - name: Destroy services
+      ansible.builtin.include_role:
+        name: manage-services
+        tasks_from: destroy.yml

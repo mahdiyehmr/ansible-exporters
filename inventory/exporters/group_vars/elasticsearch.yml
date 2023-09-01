@@ -1,0 +1,8 @@
+additional_services:      
+  elk-exporter:
+    container_name: elk-exporter
+    image: quay.io/prometheuscommunity/elasticsearch-exporter:latest
+    command:
+      - "--es.uri=http://elastic:elastic-pass@127.0.0.1:9200"
+    restart: always
+    network_mode: host
